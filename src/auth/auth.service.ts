@@ -5,7 +5,7 @@ import { UsersService } from 'src/user.service';
 
 @Injectable()
 export class AuthService {
-  private readonly jwtSecret = '123456';
+  private readonly jwtSecret = process.env.JWT_SECRET || '123456';
 
   constructor(
     private userService: UsersService,
