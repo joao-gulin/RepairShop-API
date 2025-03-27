@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   // Validate a user's credentials (email and password)
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.getUserByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
       // Omit password before returning
@@ -27,10 +27,7 @@ export class AuthService {
   async login(user: any) {
     const payload = { email: user.email, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload, {
-        secret: this.jwtSecret,
-        expiresIn: '1h',
-      }),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }
