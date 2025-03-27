@@ -14,6 +14,13 @@ export class UsersService {
     });
   }
 
+  // Retrieve a single user by unique email
+  async getUserByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email }, // Look for a user whose 'email' field matches the given email
+    });
+  }
+
   // Retrieve all users
   async getAllUsers(): Promise<User[]> {
     return this.prisma.user.findMany(); // Gets all user records from the database
