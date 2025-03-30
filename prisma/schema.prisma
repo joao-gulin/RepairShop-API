@@ -22,6 +22,32 @@ model User {
   role      Role     @default(STAFF)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Client    Client[]
+}
+
+model Client {
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  phone         String?
+  address       String?
+  otherContacts Json?
+  workOrders    WorkOrder[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  createdBy     User        @relation(fields: [createdById], references: [id])
+  createdById   String // Tracks which staff member created this member
+}
+
+model WorkOrder {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  status      String   @default("PENDING")
+  client      Client   @relation(fields: [clientId], references: [id])
+  clientId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum Role {
